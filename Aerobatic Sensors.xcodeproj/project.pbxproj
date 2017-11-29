@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		ADE645EF1FAEB9E80030CA75 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE645EE1FAEB9E80030CA75 /* AppDelegate.swift */; };
-		ADE645F11FAEB9E80030CA75 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = ADE645F01FAEB9E80030CA75 /* GameScene.sks */; };
-		ADE645F31FAEB9E80030CA75 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = ADE645F21FAEB9E80030CA75 /* Actions.sks */; };
 		ADE645F51FAEB9E80030CA75 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE645F41FAEB9E80030CA75 /* GameScene.swift */; };
 		ADE645F71FAEB9E80030CA75 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE645F61FAEB9E80030CA75 /* GameViewController.swift */; };
 		ADE645FA1FAEB9E80030CA75 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADE645F81FAEB9E80030CA75 /* Main.storyboard */; };
@@ -39,8 +37,6 @@
 /* Begin PBXFileReference section */
 		ADE645EB1FAEB9E80030CA75 /* Aerobatic Sensors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Aerobatic Sensors.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE645EE1FAEB9E80030CA75 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		ADE645F01FAEB9E80030CA75 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		ADE645F21FAEB9E80030CA75 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		ADE645F41FAEB9E80030CA75 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		ADE645F61FAEB9E80030CA75 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		ADE645F91FAEB9E80030CA75 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -53,6 +49,7 @@
 		ADE646101FAEB9E80030CA75 /* Aerobatic SensorsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Aerobatic SensorsUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE646141FAEB9E80030CA75 /* Aerobatic_SensorsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aerobatic_SensorsUITests.swift; sourceTree = "<group>"; };
 		ADE646161FAEB9E80030CA75 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ADFC831E1FB801F7005B2E4F /* Aerobatic Sensors.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Aerobatic Sensors.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,9 +100,8 @@
 		ADE645ED1FAEB9E80030CA75 /* Aerobatic Sensors */ = {
 			isa = PBXGroup;
 			children = (
+				ADFC831E1FB801F7005B2E4F /* Aerobatic Sensors.entitlements */,
 				ADE645EE1FAEB9E80030CA75 /* AppDelegate.swift */,
-				ADE645F01FAEB9E80030CA75 /* GameScene.sks */,
-				ADE645F21FAEB9E80030CA75 /* Actions.sks */,
 				ADE645F41FAEB9E80030CA75 /* GameScene.swift */,
 				ADE645F61FAEB9E80030CA75 /* GameViewController.swift */,
 				ADE645F81FAEB9E80030CA75 /* Main.storyboard */,
@@ -203,6 +199,11 @@
 					ADE645EA1FAEB9E80030CA75 = {
 						CreatedOnToolsVersion = 9.1;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 0;
+							};
+						};
 					};
 					ADE646041FAEB9E80030CA75 = {
 						CreatedOnToolsVersion = 9.1;
@@ -242,10 +243,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADE645FA1FAEB9E80030CA75 /* Main.storyboard in Resources */,
-				ADE645F11FAEB9E80030CA75 /* GameScene.sks in Resources */,
 				ADE645FC1FAEB9E80030CA75 /* Assets.xcassets in Resources */,
 				ADE645FF1FAEB9E80030CA75 /* LaunchScreen.storyboard in Resources */,
-				ADE645F31FAEB9E80030CA75 /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,12 +438,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KWLCY5LKHK;
 				INFOPLIST_FILE = "Aerobatic Sensors/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thejbix.Aerobatic-Sensors";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -453,12 +454,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KWLCY5LKHK;
 				INFOPLIST_FILE = "Aerobatic Sensors/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.thejbix.Aerobatic-Sensors";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};
