@@ -14,19 +14,24 @@ import Darwin
 
 class GameScene: SKScene
 {
+    //radius of the instruments
     let radius:CGFloat = CGFloat(120)
+    //readius of two instruments that point toward the direction of gravity
     let partialRadius:CGFloat = CGFloat(90);
     
+    //Handles the obtaining of raw data from sensors
     static let motion = CMMotionManager()
     static var timerGyro:Timer? = nil
     static var timerAccel:Timer? = nil
+    //multiple values are taken to make data more smooth
+    //the average is used
     static var x:[Double] = [0,0,0,0,0] //yaw
     static var y:[Double] = [0,0,0,0,0,0,0,0,0,0,0,0,0]//pitch  requires more stability
     static var z:[Double] = [0,0,0,0,0] //roll
     static var grav:[Double] = [0,0,0,0,0]//grav
     static var gravDirection:[Double] = [0,0,0]//gravDirection
     
-    
+    //Shape for each instrument
     var pitchPie:SKShapeNode = SKShapeNode()
     var rollPie:SKShapeNode = SKShapeNode()
     var yawPie:SKShapeNode = SKShapeNode()
@@ -34,43 +39,51 @@ class GameScene: SKScene
     var gravDirectionBottomPie:SKShapeNode = SKShapeNode()
     var gravDirectionTopPie:SKShapeNode = SKShapeNode()
     
-    
+    //Variables used by Pitch Rate Instrument
     var lblPitchValue = SKLabelNode()
     var startAnglePitch = CGFloat.pi
     var calibrationVarPitch:CGFloat = 0.0
     var locationPitch:CGPoint = CGPoint.zero
     
+    //Variables used by Roll Rate Instrument
     var lblRollValue = SKLabelNode()
     var startAngleRoll = CGFloat.pi * CGFloat(1.0/2.0)
     var calibrationVarRoll:CGFloat = 0.0
     var locationRoll:CGPoint = CGPoint.zero
     
+    //Variables used by Yaw Rate Instrument
     var lblYawValue = SKLabelNode()
     var startAngleYaw = CGFloat.pi * CGFloat(1.0/2.0)
     var calibrationVarYaw:CGFloat = 0.0
     var locationYaw:CGPoint = CGPoint.zero
     
+    //Variables used by Total G's Instrument
     var lblGravValue = SKLabelNode()
     var startAngleGrav = CGFloat.pi
     var calibrationVarGrav:CGFloat = 0.0
     var locationGrav:CGPoint = CGPoint.zero
     
+    //Variables used by Gravity Direction Instrument displayed on bottom of the screen
     var lblGravDirectionBottomValue = SKLabelNode()
     var startAngleGravDirectionBottom = CGFloat.pi * CGFloat(3.0/2.0);
     var calibrationVarGravDirectionBottom:CGFloat = 0.0
     var locationGravDirectionBottom:CGPoint = CGPoint.zero
     
+    //Variables used by Gravity Direction Instrument displayed on top of the screen
     var lblGravDirectionTopValue = SKLabelNode()
     var startAngleGravDirectionTop = CGFloat.pi * CGFloat(1.0/2.0);
     var calibrationVarGravDirectionTop:CGFloat = 0.0
     var locationGravDirectionTop:CGPoint = CGPoint.zero
    
+    
+    //Used in determining label refresh rate
     var lastTime: CFTimeInterval = 0.0
     
     
     
     
-    
+    //Start up function
+    //sets up graphical shapes for the instruments
     override func didMove(to view: SKView)
     {
         scene?.backgroundColor = SKColor.white
@@ -143,7 +156,7 @@ class GameScene: SKScene
         
         
         
-        
+        //Start collecting Data
         GameScene.startGyros()
         
     
@@ -151,6 +164,7 @@ class GameScene: SKScene
     
     override func willMove(from view: SKView)
     {
+        //Stop Collecting Data
         GameScene.stopGyros();
     }
     
@@ -159,7 +173,8 @@ class GameScene: SKScene
             self.motion.gyroUpdateInterval = 1.0 / 60.0
             self.motion.startGyroUpdates()
             
-            // Configure a timer to fetch the accelerometer data.
+            // Configure a timer to fetch the gyroscope data.
+            // timer will put rotation rates from gyroscope into x , y, z variables
             self.timerGyro = Timer(fire: Date(), interval: (1.0/60.0),
                                repeats: true, block: { (timer) in
                                 // Get the gyro data.
@@ -173,11 +188,13 @@ class GameScene: SKScene
             // Add the timer to the current run loop.
             RunLoop.current.add(self.timerGyro!, forMode: .defaultRunLoopMode)
         }
+        
         if self.motion.isAccelerometerAvailable {
             self.motion.accelerometerUpdateInterval = 1.0 / 60.0
             self.motion.startAccelerometerUpdates()
             
             // Configure a timer to fetch the accelerometer data.
+            // timer will put data from accelerometer into grav(total g force in the x direction) and gravDirection(angle is stored in radians);
             self.timerAccel = Timer(fire: Date(), interval: (1.0/60.0),
                                repeats: true, block: { (timer) in
                                 // Get the accel data.
@@ -193,6 +210,7 @@ class GameScene: SKScene
         }
     }
     
+    //Stop sensor data collecting
     static public func stopGyros() {
         if self.timerGyro != nil {
             self.timerGyro?.invalidate()
@@ -210,7 +228,7 @@ class GameScene: SKScene
     }
     
     
-    
+    //Add whole circle instrument to view
     func addPieInPosition(pie: inout SKShapeNode, label: inout SKLabelNode, location: CGPoint)
     {
         let backCircle = SKShapeNode(circleOfRadius: radius)
@@ -256,6 +274,7 @@ class GameScene: SKScene
         
     }
     
+    //Add partial circle sensor to the view
     func addPartialPieInPosition(pie: inout SKShapeNode, label: inout SKLabelNode, location: CGPoint, start: CGFloat, stop: CGFloat)
     {
         
@@ -307,6 +326,8 @@ class GameScene: SKScene
         
     }
     
+    //Where logic loop occurs
+    //updates the values and shapes of all the sensors
     override func update(_ currentTime: CFTimeInterval)
     {
         var changeLabels:Bool = false
@@ -489,11 +510,12 @@ class GameScene: SKScene
         path.closeSubpath()
         gravDirectionTopPie.path = path
         
+        
         SKAction.wait(forDuration: 1.0/60.0)
         
     }
     
-    
+    //get average of an array of doubles
     func getAverage(_ numbers: [Double]) -> Double
     {
         var i:Int = 0
@@ -508,18 +530,20 @@ class GameScene: SKScene
         
     }
     
+    //used in determining calibration value
     func calibrate(_ numbers:[Double]) -> CGFloat
     {
         return CGFloat(getAverage(numbers))
     }
     
+    //append value to array and pop the last
     static func appendAndPop(_ numbers: inout [Double], _ newValue: Double)
     {
         numbers.insert(newValue, at: 0)
         numbers.popLast()
     }
     
-    
+    //used as a calibration function but will have its own menu soon
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         //calibrationVarPitch = calibrate(GameScene.y)
         //calibrationVarRoll = calibrate(GameScene.z)
@@ -527,12 +551,14 @@ class GameScene: SKScene
         
     }
     
-    
+    //get x,y location of a point starting from circles center given angle and radius from center
     func getPointInsideCircle(location: CGPoint, angle: CGFloat, radius: CGFloat) -> CGPoint
     {
         return CGPoint(x: Darwin.cos(Double(angle))*Double(radius) + Double(location.x), y: Darwin.sin(Double(angle))*Double(radius) + Double(location.y))
     }
     
+    //creates a small line
+    //used on the instruments to indicate measurements
     func createLine(location: CGPoint, angle:CGFloat)
     {
         let point1 = getPointInsideCircle(location: location, angle: angle, radius: radius-10)
@@ -548,6 +574,7 @@ class GameScene: SKScene
         self.addChild(lineNode)
     }
     
+    //Create labels to correspond with the lines drawn around the instruments
     func createTextForInstrument(location: CGPoint, angle:CGFloat, str: String)
     {
         let point = getPointInsideCircle(location: location, angle: angle, radius: radius+30)
@@ -561,6 +588,7 @@ class GameScene: SKScene
         self.addChild(label)
     }
     
+    //creates a title for an instrument
     func createLabel(location: CGPoint, str: String)
     {
         var loc = location
