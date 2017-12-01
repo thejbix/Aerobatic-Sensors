@@ -13,5 +13,4 @@ The app currently has one screen where all the instruments are displayed.  Pitch
 
 * **Jaydon Bixenman** 
 
-[ScreenShot]: https://github.com/thejbix/Aerobatic-Sensors/raw/master/Pictures/AerobaticInstruments.png "Screen Shot"
-
+[ScreenShot]: https://github.com/thejbix/Aerobatic-Sensors/raw/master/Pictures/AerobaticInstruments.PNG "Screen Shot"
