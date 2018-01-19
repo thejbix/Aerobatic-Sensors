@@ -148,10 +148,10 @@ class GameScene: SKScene
         
         
         //GravDirection
-        locationGravDirectionBottom = CGPoint(x: view.bounds.width*(2.0/4.0),y: view.bounds.height*(1.0/4.0))
+        locationGravDirectionBottom = CGPoint(x: view.bounds.width*(2.0/4.0),y: view.bounds.height*(1.0/6.0))
         addPartialPieInPosition(pie: &gravDirectionBottomPie, label: &lblGravDirectionBottomValue, location: locationGravDirectionBottom, start: CGFloat.pi * CGFloat(1), stop: CGFloat.pi * CGFloat(2))
         
-        locationGravDirectionTop = CGPoint(x: view.bounds.width*(2.0/4.0),y: view.bounds.height*(3.0/4.0))
+        locationGravDirectionTop = CGPoint(x: view.bounds.width*(2.0/4.0),y: view.bounds.height*(5.0/6.0))
         addPartialPieInPosition(pie: &gravDirectionTopPie, label: &lblGravDirectionTopValue, location: locationGravDirectionTop, start: CGFloat.pi * CGFloat(0), stop: CGFloat.pi * CGFloat(1));
         
         
