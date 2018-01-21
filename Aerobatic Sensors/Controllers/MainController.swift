@@ -12,15 +12,23 @@ import SpriteKit
 
 class MainController: UIViewController {
 
+    var scene:InstrumentScene? = nil
+    var skView: SKView? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let scene = InstrumentScene(size: view.bounds.size)
-        let skView = view as! SKView
-        skView.showsFPS = true
-        skView.showsNodeCount = true
-        skView.ignoresSiblingOrder = true
-        scene.scaleMode = .resizeFill
-        skView.presentScene(scene)
+        scene = InstrumentScene(size: view.bounds.size)
+        skView = view as! SKView
+        skView?.showsFPS = true
+        skView?.showsNodeCount = true
+        skView?.ignoresSiblingOrder = true
+        scene?.scaleMode = .resizeFill
+        skView?.presentScene(scene)
+        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         
     }
 
@@ -29,7 +37,9 @@ class MainController: UIViewController {
     }
    
     @IBAction func swipeRight(_ sender: UISwipeGestureRecognizer) {
+        skView?.scene?.willMove(from: skView!)
         performSegue(withIdentifier: "MainToSettings", sender: self)
+        
     }
     
 }

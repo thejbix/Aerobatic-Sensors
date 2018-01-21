@@ -88,6 +88,9 @@ class InstrumentScene: SKScene
     //sets up graphical shapes for the instruments
     override func didMove(to view: SKView)
     {
+        print("InstrumentScene: DidMove")
+        
+        
         scene?.backgroundColor = SKColor.white
         
         let offsetData = Array(OffsetsHelper.getAll())
@@ -167,14 +170,19 @@ class InstrumentScene: SKScene
         //Start collecting Data
         InstrumentScene.startGyros()
         
+        view.isPaused = false
     
     }
     
     override func willMove(from view: SKView)
     {
         //Stop Collecting Data
+        print("InstrumentScene: willmove")
+        view.isPaused = true
         InstrumentScene.stopGyros();
     }
+    
+    
     
     static public func startGyros() {
         if self.motion.isGyroAvailable {
@@ -338,6 +346,7 @@ class InstrumentScene: SKScene
     //updates the values and shapes of all the sensors
     override func update(_ currentTime: CFTimeInterval)
     {
+        
         var changeLabels:Bool = false
         
         

@@ -47,19 +47,20 @@ class SettingsController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
+        print("Disappeared")
         stopGyros()
     }
     
     @IBAction func calibrate(_ sender: UIButton) {
-   
+        
         OffsetsHelper.deleteAll()
+        offsets = Offsets()
         offsets.pitchOffset = getAverage(y)
         offsets.rollOffset = getAverage(z)
         offsets.yawOffset = getAverage(x)
         OffsetsHelper.add(offset: offsets)
         
         setLabels()
-        
     }
     
     @IBAction func swipeRight(_ sender: UISwipeGestureRecognizer) {
