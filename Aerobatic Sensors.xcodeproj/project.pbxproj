@@ -7,9 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ADD30291201445E20055A196 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD30290201445E20055A196 /* SettingsController.swift */; };
+		ADD30293201458EC0055A196 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = ADD30292201458EC0055A196 /* Cartfile */; };
+		ADD30297201462900055A196 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADD30295201462850055A196 /* RealmSwift.framework */; };
+		ADD30298201462900055A196 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ADD30295201462850055A196 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		ADD3029C201463830055A196 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADD3029A2014637B0055A196 /* Realm.framework */; };
+		ADD3029D201463830055A196 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ADD3029A2014637B0055A196 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		ADD302A0201463D90055A196 /* OffsetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD3029F201463D90055A196 /* OffsetData.swift */; };
+		ADD302A220146C290055A196 /* SegueFromLeft.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD302A120146C290055A196 /* SegueFromLeft.swift */; };
+		ADD302A520146CD40055A196 /* SegueFromRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD302A420146CD40055A196 /* SegueFromRight.swift */; };
 		ADE645EF1FAEB9E80030CA75 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE645EE1FAEB9E80030CA75 /* AppDelegate.swift */; };
-		ADE645F51FAEB9E80030CA75 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE645F41FAEB9E80030CA75 /* GameScene.swift */; };
-		ADE645F71FAEB9E80030CA75 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE645F61FAEB9E80030CA75 /* GameViewController.swift */; };
+		ADE645F51FAEB9E80030CA75 /* InstrumentScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE645F41FAEB9E80030CA75 /* InstrumentScene.swift */; };
+		ADE645F71FAEB9E80030CA75 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE645F61FAEB9E80030CA75 /* MainController.swift */; };
 		ADE645FA1FAEB9E80030CA75 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADE645F81FAEB9E80030CA75 /* Main.storyboard */; };
 		ADE645FC1FAEB9E80030CA75 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADE645FB1FAEB9E80030CA75 /* Assets.xcassets */; };
 		ADE645FF1FAEB9E80030CA75 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADE645FD1FAEB9E80030CA75 /* LaunchScreen.storyboard */; };
@@ -34,11 +43,33 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		ADD30299201462910055A196 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				ADD3029D201463830055A196 /* Realm.framework in Embed Frameworks */,
+				ADD30298201462900055A196 /* RealmSwift.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		ADD30290201445E20055A196 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		ADD30292201458EC0055A196 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
+		ADD30295201462850055A196 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
+		ADD3029A2014637B0055A196 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
+		ADD3029F201463D90055A196 /* OffsetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetData.swift; sourceTree = "<group>"; };
+		ADD302A120146C290055A196 /* SegueFromLeft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegueFromLeft.swift; sourceTree = "<group>"; };
+		ADD302A420146CD40055A196 /* SegueFromRight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegueFromRight.swift; sourceTree = "<group>"; };
 		ADE645EB1FAEB9E80030CA75 /* Aerobatic Sensors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Aerobatic Sensors.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE645EE1FAEB9E80030CA75 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		ADE645F41FAEB9E80030CA75 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
-		ADE645F61FAEB9E80030CA75 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		ADE645F41FAEB9E80030CA75 /* InstrumentScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentScene.swift; sourceTree = "<group>"; };
+		ADE645F61FAEB9E80030CA75 /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
 		ADE645F91FAEB9E80030CA75 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ADE645FB1FAEB9E80030CA75 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ADE645FE1FAEB9E80030CA75 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -57,6 +88,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADD3029C201463830055A196 /* Realm.framework in Frameworks */,
+				ADD30297201462900055A196 /* RealmSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,13 +110,60 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		ADD3028E201444BE0055A196 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				ADE645F41FAEB9E80030CA75 /* InstrumentScene.swift */,
+				ADE645F61FAEB9E80030CA75 /* MainController.swift */,
+				ADD30290201445E20055A196 /* SettingsController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		ADD3028F201444C60055A196 /* Layouts */ = {
+			isa = PBXGroup;
+			children = (
+				ADE645F81FAEB9E80030CA75 /* Main.storyboard */,
+				ADE645FD1FAEB9E80030CA75 /* LaunchScreen.storyboard */,
+			);
+			path = Layouts;
+			sourceTree = "<group>";
+		};
+		ADD30294201459780055A196 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ADD3029A2014637B0055A196 /* Realm.framework */,
+				ADD30295201462850055A196 /* RealmSwift.framework */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		ADD3029E201463C70055A196 /* Date Models */ = {
+			isa = PBXGroup;
+			children = (
+				ADD3029F201463D90055A196 /* OffsetData.swift */,
+			);
+			path = "Date Models";
+			sourceTree = "<group>";
+		};
+		ADD302A320146CAF0055A196 /* Segues */ = {
+			isa = PBXGroup;
+			children = (
+				ADD302A120146C290055A196 /* SegueFromLeft.swift */,
+				ADD302A420146CD40055A196 /* SegueFromRight.swift */,
+			);
+			path = Segues;
+			sourceTree = "<group>";
+		};
 		ADE645E21FAEB9E80030CA75 = {
 			isa = PBXGroup;
 			children = (
+				ADD30292201458EC0055A196 /* Cartfile */,
 				ADE645ED1FAEB9E80030CA75 /* Aerobatic Sensors */,
 				ADE646081FAEB9E80030CA75 /* Aerobatic SensorsTests */,
 				ADE646131FAEB9E80030CA75 /* Aerobatic SensorsUITests */,
 				ADE645EC1FAEB9E80030CA75 /* Products */,
+				ADD30294201459780055A196 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -100,13 +180,13 @@
 		ADE645ED1FAEB9E80030CA75 /* Aerobatic Sensors */ = {
 			isa = PBXGroup;
 			children = (
+				ADD302A320146CAF0055A196 /* Segues */,
+				ADD3029E201463C70055A196 /* Date Models */,
+				ADD3028F201444C60055A196 /* Layouts */,
+				ADD3028E201444BE0055A196 /* Controllers */,
 				ADFC831E1FB801F7005B2E4F /* Aerobatic Sensors.entitlements */,
 				ADE645EE1FAEB9E80030CA75 /* AppDelegate.swift */,
-				ADE645F41FAEB9E80030CA75 /* GameScene.swift */,
-				ADE645F61FAEB9E80030CA75 /* GameViewController.swift */,
-				ADE645F81FAEB9E80030CA75 /* Main.storyboard */,
 				ADE645FB1FAEB9E80030CA75 /* Assets.xcassets */,
-				ADE645FD1FAEB9E80030CA75 /* LaunchScreen.storyboard */,
 				ADE646001FAEB9E80030CA75 /* Info.plist */,
 			);
 			path = "Aerobatic Sensors";
@@ -140,6 +220,7 @@
 				ADE645E71FAEB9E80030CA75 /* Sources */,
 				ADE645E81FAEB9E80030CA75 /* Frameworks */,
 				ADE645E91FAEB9E80030CA75 /* Resources */,
+				ADD30299201462910055A196 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -244,6 +325,7 @@
 			files = (
 				ADE645FA1FAEB9E80030CA75 /* Main.storyboard in Resources */,
 				ADE645FC1FAEB9E80030CA75 /* Assets.xcassets in Resources */,
+				ADD30293201458EC0055A196 /* Cartfile in Resources */,
 				ADE645FF1FAEB9E80030CA75 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -269,9 +351,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADE645F51FAEB9E80030CA75 /* GameScene.swift in Sources */,
-				ADE645F71FAEB9E80030CA75 /* GameViewController.swift in Sources */,
+				ADD302A220146C290055A196 /* SegueFromLeft.swift in Sources */,
+				ADD30291201445E20055A196 /* SettingsController.swift in Sources */,
+				ADE645F51FAEB9E80030CA75 /* InstrumentScene.swift in Sources */,
+				ADE645F71FAEB9E80030CA75 /* MainController.swift in Sources */,
+				ADD302A520146CD40055A196 /* SegueFromRight.swift in Sources */,
 				ADE645EF1FAEB9E80030CA75 /* AppDelegate.swift in Sources */,
+				ADD302A0201463D90055A196 /* OffsetData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,10 +525,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KWLCY5LKHK;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
 				INFOPLIST_FILE = "Aerobatic Sensors/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.thejbix.Aerobatic-Sensors";
+				PRODUCT_BUNDLE_IDENTIFIER = com.thejbix.aero;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -455,10 +545,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KWLCY5LKHK;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
 				INFOPLIST_FILE = "Aerobatic Sensors/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.thejbix.Aerobatic-Sensors";
+				PRODUCT_BUNDLE_IDENTIFIER = com.thejbix.aero;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 2;
