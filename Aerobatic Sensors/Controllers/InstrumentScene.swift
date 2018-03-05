@@ -17,21 +17,10 @@ class InstrumentScene: SKScene
     //radius of the instruments
     let radius:CGFloat = CGFloat(120)
     //readius of two instruments that point toward the direction of gravity
-    let partialRadius:CGFloat = CGFloat(90);
+    let partialRadius:CGFloat = CGFloat(90)
     
-    //Handles the obtaining of raw data from sensors
-    static let motion = CMMotionManager()
-    static var timerGyro:Timer? = nil
-    static var timerAccel:Timer? = nil
-    //multiple values are taken to make data more smooth
-    //the average is used
-    static var x:[Double] = [0,0,0,0,0] //yaw
-    static var y:[Double] = [0,0,0,0,0,0,0,0,0,0,0,0,0]//pitch  requires more stability
-    static var z:[Double] = [0,0,0,0,0] //roll
-    static var grav:[Double] = [0,0,0,0,0]//grav
-    static var gravDirection:[Double] = [0,0,0]//gravDirection
     
-    static var offsets = Offsets()
+    let data = InstrumentData()
     
     //Shape for each instrument
     var pitchPie:SKShapeNode = SKShapeNode()
@@ -93,10 +82,7 @@ class InstrumentScene: SKScene
         
         scene?.backgroundColor = SKColor.white
         
-        let offsetData = Array(OffsetsHelper.getAll())
-        if offsetData.count == 1 {
-            InstrumentScene.offsets = offsetData[0]
-        }
+        data.setup()
         
         
         //Pitch Pie Set
@@ -168,7 +154,7 @@ class InstrumentScene: SKScene
         
         
         //Start collecting Data
-        InstrumentScene.startGyros()
+        data.startGyros()
         
         view.isPaused = false
     
@@ -179,69 +165,14 @@ class InstrumentScene: SKScene
         //Stop Collecting Data
         print("InstrumentScene: willmove")
         view.isPaused = true
-        InstrumentScene.stopGyros();
+        data.stopGyros();
     }
     
     
     
-    static public func startGyros() {
-        if self.motion.isGyroAvailable {
-            self.motion.gyroUpdateInterval = 1.0 / 60.0
-            self.motion.startGyroUpdates()
-            
-            // Configure a timer to fetch the gyroscope data.
-            // timer will put rotation rates from gyroscope into x , y, z variables
-            self.timerGyro = Timer(fire: Date(), interval: (1.0/60.0),
-                               repeats: true, block: { (timer) in
-                                // Get the gyro data.
-                                if let data = self.motion.gyroData {
-                                    appendAndPop(&InstrumentScene.x,data.rotationRate.x)
-                                    appendAndPop(&InstrumentScene.y,data.rotationRate.y * -1)
-                                    appendAndPop(&InstrumentScene.z,data.rotationRate.z)
-                                }
-            })
-            
-            // Add the timer to the current run loop.
-            RunLoop.current.add(self.timerGyro!, forMode: .defaultRunLoopMode)
-        }
-        
-        if self.motion.isAccelerometerAvailable {
-            self.motion.accelerometerUpdateInterval = 1.0 / 60.0
-            self.motion.startAccelerometerUpdates()
-            
-            // Configure a timer to fetch the accelerometer data.
-            // timer will put data from accelerometer into grav(total g force in the x direction) and gravDirection(angle is stored in radians);
-            self.timerAccel = Timer(fire: Date(), interval: (1.0/60.0),
-                               repeats: true, block: { (timer) in
-                                // Get the accel data.
-                                if let data = self.motion.accelerometerData?.acceleration {
-                                    //let gravStrength = Darwin.sqrt((data.x*data.x) + (data.y*data.y) + (data.z*data.z)) * -1
-                                    appendAndPop(&InstrumentScene.grav,data.x)
-                                    appendAndPop(&InstrumentScene.gravDirection,atan(data.y/data.x));
-                                }
-            })
-            
-            // Add the timer to the current run loop.
-            RunLoop.current.add(self.timerAccel!, forMode: .defaultRunLoopMode)
-        }
-    }
     
-    //Stop sensor data collecting
-    static public func stopGyros() {
-        if self.timerGyro != nil {
-            self.timerGyro?.invalidate()
-            self.timerGyro = nil
-            
-            self.motion.stopGyroUpdates()
-        }
-        
-        if self.timerAccel != nil {
-            self.timerAccel?.invalidate()
-            self.timerAccel = nil
-            
-            self.motion.stopAccelerometerUpdates()
-        }
-    }
+    
+    
     
     
     //Add whole circle instrument to view
@@ -359,7 +290,7 @@ class InstrumentScene: SKScene
         var path:CGMutablePath = CGMutablePath()
         
         //Pitch Update
-        let pitchRate:CGFloat = CGFloat(getAverage(InstrumentScene.y) - InstrumentScene.offsets.pitchOffset)
+        let pitchRate:CGFloat = CGFloat(getAverage(data.y) - data.offsets.pitchOffset)
         
         
         var degreeValue:CGFloat = pitchRate * 57.2958;
@@ -393,7 +324,7 @@ class InstrumentScene: SKScene
         
         
         //Roll Update
-        let rollRate:CGFloat = CGFloat(getAverage(InstrumentScene.z) - InstrumentScene.offsets.rollOffset)
+        let rollRate:CGFloat = CGFloat(getAverage(data.z) - data.offsets.rollOffset)
         degreeValue = rollRate * 57.2958
         if changeLabels
         {
@@ -424,7 +355,7 @@ class InstrumentScene: SKScene
         
         
         //Yaw Update
-        let yawRate:CGFloat = CGFloat(getAverage(InstrumentScene.x) - InstrumentScene.offsets.yawOffset)
+        let yawRate:CGFloat = CGFloat(getAverage(data.x) - data.offsets.yawOffset)
         degreeValue = yawRate * 57.2958
         if changeLabels
         {
@@ -455,7 +386,7 @@ class InstrumentScene: SKScene
         
         
         //Grav Update
-        let gravRate:CGFloat = CGFloat(getAverage(InstrumentScene.grav) * -1)
+        let gravRate:CGFloat = CGFloat(getAverage(data.grav) * -1)
         
         var temp = String(abs(Double(gravRate)))
         if(temp.count > 3)
@@ -486,7 +417,7 @@ class InstrumentScene: SKScene
         //GravDirectionBottom Update
         path = CGMutablePath()
         path.move(to: CGPoint.zero)
-        var angleGravDirectionBottom = CGFloat(getAverage(InstrumentScene.gravDirection)) + startAngleGravDirectionBottom;
+        var angleGravDirectionBottom = CGFloat(getAverage(data.gravDirection)) + startAngleGravDirectionBottom;
         
         if(gravRate > 0)
         {
@@ -508,7 +439,7 @@ class InstrumentScene: SKScene
         //GravDirectionTop Update
         path = CGMutablePath()
         path.move(to: CGPoint.zero)
-        var angleGravDirectionTop = CGFloat(getAverage(InstrumentScene.gravDirection)) + startAngleGravDirectionTop;
+        var angleGravDirectionTop = CGFloat(getAverage(data.gravDirection)) + startAngleGravDirectionTop;
         
         if(gravRate < 0)
         {
@@ -553,12 +484,7 @@ class InstrumentScene: SKScene
         return CGFloat(getAverage(numbers))
     }
     
-    //append value to array and pop the last
-    static func appendAndPop(_ numbers: inout [Double], _ newValue: Double)
-    {
-        numbers.insert(newValue, at: 0)
-        numbers.popLast()
-    }
+    
     
     //used as a calibration function but will have its own menu soon
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
