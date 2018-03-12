@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AD700BE0204CE6EE0023A77E /* InstrumentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD700BDF204CE6EE0023A77E /* InstrumentData.swift */; };
+		AD70F4B62055A908000979DA /* GpsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD70F4B52055A908000979DA /* GpsData.swift */; };
 		ADD30291201445E20055A196 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD30290201445E20055A196 /* SettingsController.swift */; };
 		ADD30293201458EC0055A196 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = ADD30292201458EC0055A196 /* Cartfile */; };
 		ADD30297201462900055A196 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADD30295201462850055A196 /* RealmSwift.framework */; };
@@ -61,6 +62,7 @@
 
 /* Begin PBXFileReference section */
 		AD700BDF204CE6EE0023A77E /* InstrumentData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentData.swift; sourceTree = "<group>"; };
+		AD70F4B52055A908000979DA /* GpsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpsData.swift; sourceTree = "<group>"; };
 		ADD30290201445E20055A196 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		ADD30292201458EC0055A196 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		ADD30295201462850055A196 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 			children = (
 				ADD3029F201463D90055A196 /* OffsetData.swift */,
 				AD700BDF204CE6EE0023A77E /* InstrumentData.swift */,
+				AD70F4B52055A908000979DA /* GpsData.swift */,
 			);
 			path = "Date Models";
 			sourceTree = "<group>";
@@ -183,12 +186,12 @@
 		ADE645ED1FAEB9E80030CA75 /* Aerobatic Sensors */ = {
 			isa = PBXGroup;
 			children = (
+				ADE645EE1FAEB9E80030CA75 /* AppDelegate.swift */,
 				ADD302A320146CAF0055A196 /* Segues */,
 				ADD3029E201463C70055A196 /* Date Models */,
-				ADD3028F201444C60055A196 /* Layouts */,
 				ADD3028E201444BE0055A196 /* Controllers */,
+				ADD3028F201444C60055A196 /* Layouts */,
 				ADFC831E1FB801F7005B2E4F /* Aerobatic Sensors.entitlements */,
-				ADE645EE1FAEB9E80030CA75 /* AppDelegate.swift */,
 				ADE645FB1FAEB9E80030CA75 /* Assets.xcassets */,
 				ADE646001FAEB9E80030CA75 /* Info.plist */,
 			);
@@ -362,6 +365,7 @@
 				ADD302A520146CD40055A196 /* SegueFromRight.swift in Sources */,
 				ADE645EF1FAEB9E80030CA75 /* AppDelegate.swift in Sources */,
 				ADD302A0201463D90055A196 /* OffsetData.swift in Sources */,
+				AD70F4B62055A908000979DA /* GpsData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

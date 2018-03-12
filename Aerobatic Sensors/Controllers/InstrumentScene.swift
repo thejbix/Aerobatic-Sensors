@@ -21,6 +21,7 @@ class InstrumentScene: SKScene
     
     
     let data = InstrumentData()
+    let gpsData = GpsData()
     
     //Shape for each instrument
     var pitchPie:SKShapeNode = SKShapeNode()
@@ -83,6 +84,7 @@ class InstrumentScene: SKScene
         scene?.backgroundColor = SKColor.white
         
         data.setup()
+        gpsData.startGettingLocation()
         
         
         //Pitch Pie Set
@@ -166,6 +168,7 @@ class InstrumentScene: SKScene
         print("InstrumentScene: willmove")
         view.isPaused = true
         data.stopGyros();
+        gpsData.stopGettingLocation()
     }
     
     
