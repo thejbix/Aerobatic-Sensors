@@ -23,6 +23,8 @@ class InstrumentScene: SKScene
     let data = InstrumentData()
     let gpsData = GpsData()
     
+    let bottomBarHeight = CGFloat(30)
+    
     //Shape for each instrument
     var pitchPie:SKShapeNode = SKShapeNode()
     var rollPie:SKShapeNode = SKShapeNode()
@@ -68,6 +70,12 @@ class InstrumentScene: SKScene
     var locationGravDirectionTop:CGPoint = CGPoint.zero
    
     
+    //the bottomBarTextLabels
+    var lblGroundSpeed = SKLabelNode()
+    var lblAltitude = SKLabelNode()
+    var lblRateOfClimb = SKLabelNode()
+    var lblClimbAng = SKLabelNode()
+    
     //Used in determining label refresh rate
     var lastTime: CFTimeInterval = 0.0
     
@@ -86,9 +94,13 @@ class InstrumentScene: SKScene
         data.setup()
         gpsData.startGettingLocation()
         
+        let h = bottomBarHeight + 10
+        var bounds = CGRect(x: 0, y: h, width: view.bounds.width, height: view.bounds.height-h)
+        
+        
         
         //Pitch Pie Set
-        locationPitch = CGPoint(x: view.bounds.width*(1.0/4.0),y: view.bounds.height*(3.0/4.0))
+        locationPitch = CGPoint(x: bounds.width*(1.0/4.0),y: bounds.height*(3.0/4.0) + bounds.origin.y)
         addPieInPosition(pie: &pitchPie, label: &lblPitchValue, location: locationPitch)
         createLabel(location: locationPitch, str: "Pitch Deg/Sec")
         createTextForInstrument(location: locationPitch, angle: CGFloat.pi*(1.0/4.0), str:"30")
@@ -103,7 +115,7 @@ class InstrumentScene: SKScene
         
         
         //Roll pie Set
-        locationRoll = CGPoint(x: view.bounds.width*(1.0/4.0),y: view.bounds.height*(1.0/4.0))
+        locationRoll = CGPoint(x: bounds.width*(1.0/4.0),y: bounds.height*(1.0/4.0) + bounds.origin.y)
         addPieInPosition(pie: &rollPie, label: &lblRollValue,location: locationRoll)
         createLabel(location: locationRoll, str: "Roll Deg/Sec")
         createTextForInstrument(location: locationRoll, angle: CGFloat.pi*(1.0/4.0), str:"90")
@@ -117,7 +129,7 @@ class InstrumentScene: SKScene
         
         
         //Yaw pie Set
-        locationYaw = CGPoint(x: view.bounds.width*(3.0/4.0),y: view.bounds.height*(1.0/4.0))
+        locationYaw = CGPoint(x: bounds.width*(3.0/4.0),y: bounds.height*(1.0/4.0) + bounds.origin.y)
         addPieInPosition(pie: &yawPie, label: &lblYawValue, location: locationYaw)
         createLabel(location: locationYaw, str: "Yaw Deg/Sec")
         createTextForInstrument(location: locationYaw, angle: CGFloat.pi*(1.0/4.0), str:"45")
@@ -131,7 +143,7 @@ class InstrumentScene: SKScene
         
         
         //Grav pie Set
-        locationGrav = CGPoint(x: view.bounds.width*(3.0/4.0),y: view.bounds.height*(3.0/4.0))
+        locationGrav = CGPoint(x: bounds.width*(3.0/4.0),y: bounds.height*(3.0/4.0) + bounds.origin.y)
         addPieInPosition(pie: &gravPie, label: &lblGravValue, location: locationGrav)
         createLabel(location: locationGrav, str: "G-Force")
         createTextForInstrument(location: locationGrav, angle: CGFloat.pi*(1.0/4.0), str:"4.5")
@@ -147,13 +159,21 @@ class InstrumentScene: SKScene
         
         
         //GravDirection
-        locationGravDirectionBottom = CGPoint(x: view.bounds.width*(2.0/4.0),y: view.bounds.height*(1.0/6.0))
+        locationGravDirectionBottom = CGPoint(x: bounds.width*(2.0/4.0),y: bounds.height*(1.0/6.0) + bounds.origin.y)
         addPartialPieInPosition(pie: &gravDirectionBottomPie, label: &lblGravDirectionBottomValue, location: locationGravDirectionBottom, start: CGFloat.pi * CGFloat(1), stop: CGFloat.pi * CGFloat(2))
         
-        locationGravDirectionTop = CGPoint(x: view.bounds.width*(2.0/4.0),y: view.bounds.height*(5.0/6.0))
+        locationGravDirectionTop = CGPoint(x: bounds.width*(2.0/4.0),y: bounds.height*(5.0/6.0) + bounds.origin.y)
         addPartialPieInPosition(pie: &gravDirectionTopPie, label: &lblGravDirectionTopValue, location: locationGravDirectionTop, start: CGFloat.pi * CGFloat(0), stop: CGFloat.pi * CGFloat(1));
         
         
+        var x = CGFloat(0)
+        createBox(dataLabel: &lblGroundSpeed, x: x, width: 100, leftText: "GS:", rightText: "")
+        x += 100
+        createBox(dataLabel: &lblAltitude, x: x, width: 120, leftText: "Alt:", rightText: "")
+        x += 120
+        createBox(dataLabel: &lblRateOfClimb, x: x, width: 140, leftText: "RoC:", rightText: "")
+        x += 140
+        createBox(dataLabel: &lblClimbAng, x: x, width: 160, leftText: "ClimbAngle:", rightText: "")
         
         //Start collecting Data
         data.startGyros()
@@ -172,109 +192,6 @@ class InstrumentScene: SKScene
     }
     
     
-    
-    
-    
-    
-    
-    
-    //Add whole circle instrument to view
-    func addPieInPosition(pie: inout SKShapeNode, label: inout SKLabelNode, location: CGPoint)
-    {
-        let backCircle = SKShapeNode(circleOfRadius: radius)
-        backCircle.strokeColor = SKColor.black
-        backCircle.fillColor = SKColor.white
-        backCircle.lineWidth = 5
-        backCircle.position = location
-        self.addChild(backCircle)
-        
-        
-        pie = SKShapeNode() // Size of Circle = Radius setting.
-        pie.position = location  //touch location passed from touchesBegan.
-        pie.name = "pitch"
-        pie.lineWidth = 5
-        pie.fillColor = SKColor.green
-        pie.strokeColor = SKColor.black
-        self.addChild(pie)
-        
-        
-        let labelBackground = SKShapeNode(circleOfRadius: 40)
-        labelBackground.fillColor = SKColor.lightGray
-        labelBackground.position = location
-        labelBackground.strokeColor = SKColor.clear
-        self.addChild(labelBackground)
-        
-        label.text = "20"
-        label.fontSize = 45
-        label.fontColor = SKColor.black
-        label.position = location
-        label.verticalAlignmentMode = SKLabelVerticalAlignmentMode.center
-        label.fontName = "AvenirNext-Bold"
-        self.addChild(label)
-        
-        createLine(location: location, angle: CGFloat.pi * (0.0/4.0))
-        createLine(location: location, angle: CGFloat.pi * (1.0/4.0))
-        createLine(location: location, angle: CGFloat.pi * (2.0/4.0))
-        createLine(location: location, angle: CGFloat.pi * (3.0/4.0))
-        createLine(location: location, angle: CGFloat.pi * (4.0/4.0))
-        createLine(location: location, angle: CGFloat.pi * (5.0/4.0))
-        createLine(location: location, angle: CGFloat.pi * (6.0/4.0))
-        createLine(location: location, angle: CGFloat.pi * (7.0/4.0))
-        
-        
-    }
-    
-    //Add partial circle sensor to the view
-    func addPartialPieInPosition(pie: inout SKShapeNode, label: inout SKLabelNode, location: CGPoint, start: CGFloat, stop: CGFloat)
-    {
-        
-        let backCirclePath = CGMutablePath()
-        backCirclePath.move(to: CGPoint.zero)
-        backCirclePath.addArc(center: CGPoint.zero, radius: partialRadius, startAngle: start, endAngle: stop, clockwise: false);
-        backCirclePath.addLine(to: CGPoint.zero)
-        backCirclePath.closeSubpath()
-        
-        
-        let backCircle = SKShapeNode(path: backCirclePath);
-        backCircle.position = location;
-        backCircle.lineWidth = 5;
-        backCircle.strokeColor = SKColor.black;
-        self.addChild(backCircle);
-        
-        pie = SKShapeNode() // Size of Circle = Radius setting.
-        pie.position = location  //touch location passed from touchesBegan.
-        pie.name = "pitch"
-        pie.lineWidth = 5
-        pie.fillColor = SKColor.green
-        pie.strokeColor = SKColor.black
-        self.addChild(pie)
-        
-        
-        /*let labelBackground = SKShapeNode(circleOfRadius: 40)
-        labelBackground.fillColor = SKColor.lightGray
-        labelBackground.position = location
-        labelBackground.strokeColor = SKColor.clear
-        self.addChild(labelBackground)
-        
-        label.text = "20"
-        label.fontSize = 45
-        label.fontColor = SKColor.black
-        label.position = location
-        label.verticalAlignmentMode = SKLabelVerticalAlignmentMode.center
-        label.fontName = "AvenirNext-Bold"
-        self.addChild(label)
-        
-        createLine(location: location, angle: CGFloat.pi * (0.0/4.0))
-        createLine(location: location, angle: CGFloat.pi * (1.0/4.0))
-        createLine(location: location, angle: CGFloat.pi * (2.0/4.0))
-        createLine(location: location, angle: CGFloat.pi * (3.0/4.0))
-        createLine(location: location, angle: CGFloat.pi * (4.0/4.0))
-        createLine(location: location, angle: CGFloat.pi * (5.0/4.0))
-        createLine(location: location, angle: CGFloat.pi * (6.0/4.0))
-        createLine(location: location, angle: CGFloat.pi * (7.0/4.0))*/
-        
-        
-    }
     
     //Where logic loop occurs
     //updates the values and shapes of all the sensors
@@ -466,6 +383,110 @@ class InstrumentScene: SKScene
         
     }
     
+    
+    
+    
+    
+    //Add whole circle instrument to view
+    func addPieInPosition(pie: inout SKShapeNode, label: inout SKLabelNode, location: CGPoint)
+    {
+        let backCircle = SKShapeNode(circleOfRadius: radius)
+        backCircle.strokeColor = SKColor.black
+        backCircle.fillColor = SKColor.white
+        backCircle.lineWidth = 5
+        backCircle.position = location
+        self.addChild(backCircle)
+        
+        
+        pie = SKShapeNode() // Size of Circle = Radius setting.
+        pie.position = location  //touch location passed from touchesBegan.
+        pie.name = "pitch"
+        pie.lineWidth = 5
+        pie.fillColor = SKColor.green
+        pie.strokeColor = SKColor.black
+        self.addChild(pie)
+        
+        
+        let labelBackground = SKShapeNode(circleOfRadius: 40)
+        labelBackground.fillColor = SKColor.lightGray
+        labelBackground.position = location
+        labelBackground.strokeColor = SKColor.clear
+        self.addChild(labelBackground)
+        
+        label.text = "20"
+        label.fontSize = 45
+        label.fontColor = SKColor.black
+        label.position = location
+        label.verticalAlignmentMode = SKLabelVerticalAlignmentMode.center
+        label.fontName = "AvenirNext-Bold"
+        self.addChild(label)
+        
+        createLine(location: location, angle: CGFloat.pi * (0.0/4.0))
+        createLine(location: location, angle: CGFloat.pi * (1.0/4.0))
+        createLine(location: location, angle: CGFloat.pi * (2.0/4.0))
+        createLine(location: location, angle: CGFloat.pi * (3.0/4.0))
+        createLine(location: location, angle: CGFloat.pi * (4.0/4.0))
+        createLine(location: location, angle: CGFloat.pi * (5.0/4.0))
+        createLine(location: location, angle: CGFloat.pi * (6.0/4.0))
+        createLine(location: location, angle: CGFloat.pi * (7.0/4.0))
+        
+        
+    }
+    
+    //Add partial circle sensor to the view
+    func addPartialPieInPosition(pie: inout SKShapeNode, label: inout SKLabelNode, location: CGPoint, start: CGFloat, stop: CGFloat)
+    {
+        
+        let backCirclePath = CGMutablePath()
+        backCirclePath.move(to: CGPoint.zero)
+        backCirclePath.addArc(center: CGPoint.zero, radius: partialRadius, startAngle: start, endAngle: stop, clockwise: false);
+        backCirclePath.addLine(to: CGPoint.zero)
+        backCirclePath.closeSubpath()
+        
+        
+        let backCircle = SKShapeNode(path: backCirclePath);
+        backCircle.position = location;
+        backCircle.lineWidth = 5;
+        backCircle.strokeColor = SKColor.black;
+        self.addChild(backCircle);
+        
+        pie = SKShapeNode() // Size of Circle = Radius setting.
+        pie.position = location  //touch location passed from touchesBegan.
+        pie.name = "pitch"
+        pie.lineWidth = 5
+        pie.fillColor = SKColor.green
+        pie.strokeColor = SKColor.black
+        self.addChild(pie)
+        
+        
+        /*let labelBackground = SKShapeNode(circleOfRadius: 40)
+        labelBackground.fillColor = SKColor.lightGray
+        labelBackground.position = location
+        labelBackground.strokeColor = SKColor.clear
+        self.addChild(labelBackground)
+        
+        label.text = "20"
+        label.fontSize = 45
+        label.fontColor = SKColor.black
+        label.position = location
+        label.verticalAlignmentMode = SKLabelVerticalAlignmentMode.center
+        label.fontName = "AvenirNext-Bold"
+        self.addChild(label)
+        
+        createLine(location: location, angle: CGFloat.pi * (0.0/4.0))
+        createLine(location: location, angle: CGFloat.pi * (1.0/4.0))
+        createLine(location: location, angle: CGFloat.pi * (2.0/4.0))
+        createLine(location: location, angle: CGFloat.pi * (3.0/4.0))
+        createLine(location: location, angle: CGFloat.pi * (4.0/4.0))
+        createLine(location: location, angle: CGFloat.pi * (5.0/4.0))
+        createLine(location: location, angle: CGFloat.pi * (6.0/4.0))
+        createLine(location: location, angle: CGFloat.pi * (7.0/4.0))*/
+        
+        
+    }
+    
+    
+    
     //get average of an array of doubles
     func getAverage(_ numbers: [Double]) -> Double
     {
@@ -549,6 +570,41 @@ class InstrumentScene: SKScene
         label.fontName = "AvenirNext-Bold"
         self.addChild(label)
     }
+    
+    //creates a box with a left aligned label and a right aligned label
+    func createBox(dataLabel: inout SKLabelNode, x: CGFloat, width: CGFloat, leftText:String, rightText:String) {
+        
+        let height = bottomBarHeight
+        let y = CGFloat(0)
+        let rect = CGRect(x: x, y: y, width: width, height: height)
+        let box = SKShapeNode(rect: rect)
+        box.strokeColor = SKColor.black
+        box.lineWidth = 2
+        self.addChild(box)
+        
+        let leftLabel = SKLabelNode()
+        leftLabel.horizontalAlignmentMode = .left
+        leftLabel.verticalAlignmentMode = .center
+        leftLabel.fontColor = SKColor.black
+        leftLabel.text = leftText
+        leftLabel.fontSize = 20
+        leftLabel.position = CGPoint(x: x+3, y: y+(height/2))
+        leftLabel.fontName = "AvenirNext"
+        self.addChild(leftLabel)
+        
+        
+        let rightLabel = dataLabel
+        rightLabel.horizontalAlignmentMode = .right
+        rightLabel.verticalAlignmentMode = .center
+        rightLabel.fontColor = SKColor.black
+        rightLabel.text = rightText
+        rightLabel.fontSize = 20
+        rightLabel.position = CGPoint(x: x+width-3, y: y+(height/2))
+        rightLabel.fontName = "AvenirNext"
+        self.addChild(rightLabel)
+        
+    }
+    
     
     
 
