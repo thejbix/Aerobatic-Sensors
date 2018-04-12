@@ -14,6 +14,14 @@ class GpsData: NSObject, CLLocationManagerDelegate {
     var locationManager:CLLocationManager? = nil
     var lastUpdate:Date! = Date()
     
+    var lastLocation: CLLocation? = nil
+    
+    var timeDifference:Double = 1 // in seconds
+    var speed:Double = 0 // miles per hour
+    var altitude:Double = 0 // feet
+    var rateOfClimb:Double = 0 //feet per minute
+    var climbAngle:Double = 0 // degree
+
     
     override init() {
         super.init()
@@ -47,6 +55,8 @@ class GpsData: NSObject, CLLocationManagerDelegate {
     }
     
     
+    
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let userLocation:CLLocation = locations[0] as CLLocation
         
@@ -58,22 +68,48 @@ class GpsData: NSObject, CLLocationManagerDelegate {
         let startDate = lastUpdate
         let endDate = userLocation.timestamp
         let calendar = Calendar.current
-        //let dateComponents = calendar.components(NSCalendar.Unit.CalendarUnitSecond, fromDate: startDate, toDate: endDate, options: nil)
-        let dateComponents = calendar.dateComponents([Calendar.Component.second], from: startDate!, to: endDate)
-        let seconds = dateComponents.second!
+        
+        let dateComponents = calendar.dateComponents([Calendar.Component.second, Calendar.Component.nanosecond], from: startDate!, to: endDate)
+        let seconds = Double(dateComponents.second!)
         
         
-        print("user latitude = \(userLocation.coordinate.latitude)")
-        print("user longitude = \(userLocation.coordinate.longitude)")
-        print("altitude = \(metersToFeet(meters: userLocation.altitude))")
-        print("speed = \(metersSecondToMilesHour(speed: userLocation.speed))")
-        print("timeStamp = \(userLocation.timestamp.description)")
-        print("Seconds: \(seconds)")
+        timeDifference = seconds
+        let altitudeAfter = metersToFeet(meters: userLocation.altitude)
+        
+        rateOfClimb = calculateClimbRate(altitudeBefore: altitude, altitudeAfter: altitudeAfter, seconds: timeDifference)
+        speed = metersSecondToMilesHour(speed: userLocation.speed)
+        
+        
+        
+        if speed < 0 {
+            if lastLocation == nil {
+                lastLocation = userLocation
+            }
+            
+            let traveledDistance = lastLocation!.distance(from: userLocation)
+            let traveledDistanceMiles = traveledDistance * 0.00062137
+            
+            
+            speed = traveledDistance / (seconds * 3600)
+            
+        }
+        altitude = altitudeAfter
+        
+        
+        let rateOfClimb_mileshour = feetMinuteToMilesHour(speed: rateOfClimb)
+        print( rateOfClimb_mileshour)
+        
+        let theta = atan2(rateOfClimb_mileshour, speed)
+        climbAngle = theta * 57.2958
         
         lastUpdate = userLocation.timestamp
         
         
+        printAll()
+        
     }
+    
+    
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error)
     {
@@ -90,7 +126,26 @@ class GpsData: NSObject, CLLocationManagerDelegate {
     
     //meters/second to miles/hour
     func metersSecondToMilesHour(speed: Double) -> Double {
-        return speed*2.23694
+        return speed * 2.23694
+    }
+    
+    func feetMinuteToMilesHour(speed: Double) -> Double {
+        return speed * 0.0113636
+    }
+    
+    // altitude must be in feet
+    func calculateClimbRate(altitudeBefore: Double, altitudeAfter: Double, seconds: Double) -> Double{ //feet per minute
+        return (altitudeAfter-altitudeBefore)/(seconds/60)
+    }
+    
+    func printAll() {
+        print("GPS Data {")
+        print("Time Difference: ", timeDifference)
+        print("speed: ", speed)
+        print("Altitude: ", altitude)
+        print("rateOfClimb: ", rateOfClimb)
+        print("climbAngle: ", climbAngle)
+        print("}")
     }
     
 }

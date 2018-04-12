@@ -173,7 +173,7 @@ class InstrumentScene: SKScene
         x += 120
         createBox(dataLabel: &lblRateOfClimb, x: x, width: 140, leftText: "RoC:", rightText: "")
         x += 140
-        createBox(dataLabel: &lblClimbAng, x: x, width: 160, leftText: "ClimbAngle:", rightText: "")
+        createBox(dataLabel: &lblClimbAng, x: x, width: 180, leftText: "ClimbAngle:", rightText: "")
         
         //Start collecting Data
         data.startGyros()
@@ -377,6 +377,12 @@ class InstrumentScene: SKScene
         path.addLine(to: CGPoint.zero)
         path.closeSubpath()
         gravDirectionTopPie.path = path
+        
+        
+        lblGroundSpeed.text = String(Int(gpsData.speed))
+        lblAltitude.text = String(Int(gpsData.altitude))
+        lblRateOfClimb.text = String(Int(gpsData.rateOfClimb))
+        lblClimbAng.text = String(Int(gpsData.climbAngle))
         
         
         SKAction.wait(forDuration: 1.0/60.0)
@@ -589,7 +595,7 @@ class InstrumentScene: SKScene
         leftLabel.text = leftText
         leftLabel.fontSize = 20
         leftLabel.position = CGPoint(x: x+3, y: y+(height/2))
-        leftLabel.fontName = "AvenirNext"
+        leftLabel.fontName = "AvenirNext-Bold"
         self.addChild(leftLabel)
         
         
@@ -600,7 +606,7 @@ class InstrumentScene: SKScene
         rightLabel.text = rightText
         rightLabel.fontSize = 20
         rightLabel.position = CGPoint(x: x+width-3, y: y+(height/2))
-        rightLabel.fontName = "AvenirNext"
+        rightLabel.fontName = "AvenirNext-Bold"
         self.addChild(rightLabel)
         
     }
