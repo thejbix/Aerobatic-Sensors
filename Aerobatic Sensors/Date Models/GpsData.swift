@@ -71,41 +71,50 @@ class GpsData: NSObject, CLLocationManagerDelegate {
         
         let dateComponents = calendar.dateComponents([Calendar.Component.second, Calendar.Component.nanosecond], from: startDate!, to: endDate)
         let seconds = Double(dateComponents.second!)
+        let nanoSeconds = Double(dateComponents.nanosecond!)
         
         
-        timeDifference = seconds
-        let altitudeAfter = metersToFeet(meters: userLocation.altitude)
         
-        rateOfClimb = calculateClimbRate(altitudeBefore: altitude, altitudeAfter: altitudeAfter, seconds: timeDifference)
+        timeDifference += seconds + (nanoSeconds/1000000000);
+        
         speed = metersSecondToMilesHour(speed: userLocation.speed)
         
         
-        
-        if speed < 0 {
-            if lastLocation == nil {
-                lastLocation = userLocation
-            }
+        if timeDifference >= 1.9 {
+            let altitudeAfter = metersToFeet(meters: userLocation.altitude)
             
-            let traveledDistance = lastLocation!.distance(from: userLocation)
-            let traveledDistanceMiles = traveledDistance * 0.00062137
+            rateOfClimb = calculateClimbRate(altitudeBefore: altitude, altitudeAfter: altitudeAfter, seconds: timeDifference)
+            altitude = altitudeAfter
             
             
-            speed = traveledDistance / (seconds * 3600)
+            let rateOfClimb_mileshour = feetMinuteToMilesHour(speed: rateOfClimb)
+            //print( rateOfClimb_mileshour)
             
+            
+            
+            
+            /*if speed < 0 {
+             if lastLocation == nil {
+             lastLocation = userLocation
+             }
+             
+             let traveledDistance = lastLocation!.distance(from: userLocation)
+             let traveledDistanceMiles = traveledDistance * 0.00062137
+             
+             
+             speed = traveledDistance / (seconds * 3600)
+             
+             }*/
+            
+            let theta = atan2(rateOfClimb_mileshour, speed)
+            climbAngle = theta * 57.2958
+            
+            
+            printAll();
+            timeDifference = 0;
         }
-        altitude = altitudeAfter
-        
-        
-        let rateOfClimb_mileshour = feetMinuteToMilesHour(speed: rateOfClimb)
-        print( rateOfClimb_mileshour)
-        
-        let theta = atan2(rateOfClimb_mileshour, speed)
-        climbAngle = theta * 57.2958
         
         lastUpdate = userLocation.timestamp
-        
-        
-        printAll()
         
     }
     

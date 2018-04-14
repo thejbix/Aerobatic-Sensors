@@ -379,11 +379,10 @@ class InstrumentScene: SKScene
         gravDirectionTopPie.path = path
         
         
-        lblGroundSpeed.text = String(Int(gpsData.speed))
-        lblAltitude.text = String(Int(gpsData.altitude))
-        lblRateOfClimb.text = String(Int(gpsData.rateOfClimb))
-        lblClimbAng.text = String(Int(gpsData.climbAngle))
-        
+        lblGroundSpeed.text = gpsData.speed.isNormal ? String(Int(gpsData.speed)) : ""
+        lblAltitude.text = gpsData.altitude.isNormal ? String(Int(gpsData.altitude)): ""
+        lblRateOfClimb.text = gpsData.rateOfClimb.isNormal ? String(Int(gpsData.rateOfClimb)): ""
+        lblClimbAng.text = gpsData.climbAngle.isNormal ? String(Int(gpsData.climbAngle)) : ""
         
         SKAction.wait(forDuration: 1.0/60.0)
         
